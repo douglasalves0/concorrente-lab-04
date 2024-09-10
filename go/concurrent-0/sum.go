@@ -16,8 +16,13 @@ func readFile(filePath string) ([]byte, error) {
 	return data, nil
 }
 
+type MyADT struct {
+	sum  int
+	path string
+}
+
 // sum all bytes of a file
-func sum(filePath string, c chan int) {
+func sum(filePath string, c chan MyADT) {
 	data, _ := readFile(filePath)
 
 	_sum := 0
@@ -25,7 +30,8 @@ func sum(filePath string, c chan int) {
 		_sum += int(b)
 	}
 
-	c <- _sum
+	ans := MyADT{_sum, filePath}
+	c <- ans
 }
 
 // print the totalSum for all files and the files with equal sum
@@ -37,16 +43,14 @@ func main() {
 
 	var totalSum int64
 	sums := make(map[int][]string)
-	c := make(chan int)
+	c := make(chan MyADT)
 	for _, path := range os.Args[1:] {
 		go sum(path, c)
 	}
-	for _, path := range os.Args[1:] {
+	for range os.Args[1:] {
 		_sum := <-c
-
-		totalSum += int64(_sum)
-
-		sums[_sum] = append(sums[_sum], path)
+		totalSum += int64(_sum.sum)
+		sums[_sum.sum] = append(sums[_sum.sum], _sum.path)
 	}
 
 	fmt.Println(totalSum)
