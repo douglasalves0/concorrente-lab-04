@@ -70,7 +70,7 @@ func similarity(s1 string, s2 string, c chan MyADT2) {
 		counter += float64(Min(v, sums2[k]))
 	}
 
-	ans := MyADT2{s1, s2, counter / total}
+	ans := MyADT2{s1, s2, counter / total * 100}
 	c <- ans
 }
 
