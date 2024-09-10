@@ -108,7 +108,7 @@ func main() {
 		}
 	}
 
-	for i, _ := range os.Args[1:] {
+	for i := range os.Args[1:] {
 		for range os.Args[i+2:] {
 			ans := <-c2
 			fmt.Printf("Similarity between %s and %s: %.5f", ans.path1, ans.path2, ans.similarity)
