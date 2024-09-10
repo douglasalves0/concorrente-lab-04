@@ -64,7 +64,7 @@ func similarity(s1 string, s2 string) float64 {
 		counter += float64(Min(v, sums2[k]))
 	}
 
-	return counter / total
+	return counter / total * 100
 }
 
 // print the totalSum for all files and the files with equal sum
